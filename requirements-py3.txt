@@ -1,0 +1,9 @@
+pymorphy2==0.8
+scikit-learn==0.20.2
+numpy==1.14.5
+scipy==1.1.0
+tabulate==0.7.7
+bayesian-optimization==1.0.0
+pandas==0.20.1
+nltk==3.2.5
+pyaspeller==0.1.0
