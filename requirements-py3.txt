@@ -7,3 +7,5 @@ bayesian-optimization==1.0.0
 pandas==0.20.1
 nltk==3.2.5
 pyaspeller==0.1.0
+tqdm==4.29.1
+requests==2.21.0

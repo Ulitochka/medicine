@@ -13,6 +13,10 @@ from pyaspeller import YandexSpeller
 
 
 class Utils:
+    """
+    Класс для различных вспомогательных методов.
+    """
+
     def __init__(self):
         self.log_path = os.path.join(os.path.dirname(__file__), '../')
         self.morph = MorphAnalyzer()

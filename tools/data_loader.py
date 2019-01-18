@@ -10,6 +10,10 @@ DataObject = namedtuple('DataObject', ['description', 'symptoms'])
 
 
 class DataLoader:
+    """
+    Класс для загрузки данных из json-ов.
+    """
+
     def __init__(self, *, config_data, data_path):
         self.config_data = config_data
         self.data_path = data_path
@@ -20,14 +24,15 @@ class DataLoader:
         for files in os.listdir(self.data_path):
             if files.endswith('json'):
                 file = os.path.join(self.data_path, files)
-                med_notes = json.load(codecs.open(file, 'r', 'utf-8-sig'))
+                file = codecs.open(file, 'r', 'utf-8-sig')
+                med_notes = json.load(file)
                 for person in med_notes:
                     for desc in med_notes[person]:
-
                         if desc[1]:
                             data.append(DataObject(desc[0], desc[1]))
                         else:
                             empty_objects += 1
+                file.close()
         print('Empty_sympt:', empty_objects)
         return data
 

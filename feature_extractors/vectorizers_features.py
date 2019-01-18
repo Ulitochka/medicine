@@ -10,6 +10,10 @@ from tools.utils import Utils
 
 
 class Vectorizers:
+    """
+    Класс для извлечения признаков для классификации описанйи состояний пациентов.
+    """
+
     def __init__(self, *, config_data):
         self.config_data = config_data
         self.seed = 1024
@@ -29,6 +33,12 @@ class Vectorizers:
         self.tf_idf_word.fit(data)
 
     def feature_extract(self, tokens):
+        """
+        Векторизация текстов описаний.
+        :param tokens:
+        :return:
+        """
+
         features = OrderedDict(
             [
                 ('cv_word', self.cv_word.transform(tokens)),

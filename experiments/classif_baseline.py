@@ -22,12 +22,22 @@ from feature_extractors.vectorizers_features import Vectorizers
 
 
 warnings.filterwarnings("ignore")
-CV = False
+PS = False
 TOP_FEATURES = False
-ENS = True
+ENS = False
 
 
 class SymptClassifier:
+    """
+    Класс реализующий простой классификатор для отнесения описания пациентом своего состояния к каком-либо симптому.
+    Используются две модели: логистическая регрессия и градиентный бустинг.
+    В файле конфигурации находятся некоторые параметры для данных моделей, заранее пододобранные с помощью пакета
+    bayes_opt.
+
+    Реализован функционал подбора параметров, отбора признаков, усреднения предсказаний моделей.
+
+    """
+
     def __init__(self, *, config_data, model_params):
         self.config_data = config_data
         self.seed = 1024
@@ -74,6 +84,17 @@ class SymptClassifier:
             )
 
     def optimise_xgb(self, x_train, y_train, x_test, y_test, n_estimators, learning_rate):
+        """
+        Метод реализующий подбор параметров для модели GradientBoostingClassifier.
+        Подбираются параметры n_estimators и learning_rate.
+        :param x_train:
+        :param y_train:
+        :param x_test:
+        :param y_test:
+        :param n_estimators:
+        :param learning_rate:
+        :return:
+        """
 
         def target(n_estimators, learning_rate):
             clf = OneVsRestClassifier(GradientBoostingClassifier(
@@ -101,6 +122,16 @@ class SymptClassifier:
         return aim_params
 
     def optimise_log_reg(self, x_train, y_train, x_test, y_test, C):
+        """
+        Метод реализующий подбор параметров для модели LogisticRegression.
+        Подбирается параметр learning_rate.
+        :param x_train:
+        :param y_train:
+        :param x_test:
+        :param y_test:
+        :param C:
+        :return:
+        """
 
         def target(C):
             clf = OneVsRestClassifier(LogisticRegression(
@@ -173,7 +204,7 @@ if __name__ == '__main__':
         logging.info('sympt_test_labels: ' + str(y_test.shape))
         logging.info(sympt_classifier_1.model.get_params())
 
-        if CV:
+        if PS:
             best_params = sympt_classifier_1.optimise_xgb(
                 x_train, y_train, x_test, y_test, n_estimators=(30.0, 100.0), learning_rate=(0.05, 1.0))
 
@@ -207,7 +238,7 @@ if __name__ == '__main__':
                                 precision_score(y_test, predictions, average='weighted'),
                                 jaccard_similarity_score(y_test, predictions)))
 
-    if not CV:
+    if not PS:
 
         result = pd.DataFrame()
         result['fold_#'] = [el[0] for el in folds_score]

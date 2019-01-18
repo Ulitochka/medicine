@@ -11,6 +11,11 @@ from tools.data_loader import DataLoader
 
 
 class DataSplitter:
+    """
+    Класс реализующий препроцессинг данных и их разделение на обучающие и тестовые. Разделение осуществляется по 10
+    фолдам, так как данных мало и классов разное количество.
+    """
+
     def __init__(self, *, config_data, split_path):
         self.config_data = config_data
         self.seed = 1024
@@ -22,6 +27,15 @@ class DataSplitter:
         self.split_path = split_path
 
     def preprocessed(self, description):
+        """
+        Метод осуществляющий препроцессинг данных:
+            исправление ошибок
+            токенизация
+            лемматизация
+        :param description:
+        :return:
+        """
+
         correction = self.utils.spell_checking(description)
         tokens = self.utils.tokenization(description)
         if correction:
@@ -30,6 +44,11 @@ class DataSplitter:
         return morpho_info
 
     def get_split(self, data):
+        """
+        Метод разделяющий данные на обучающие множества.
+        :param data:
+        :return:
+        """
 
         folds = dict()
 

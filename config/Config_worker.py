@@ -5,6 +5,10 @@ from collections import OrderedDict
 
 
 class Config:
+    """
+    Класс для работы с файлом конфигурации.
+    """
+
     _config_data = None
 
     def __init__(self, file_name=None, config_string=None):

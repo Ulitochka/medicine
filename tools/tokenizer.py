@@ -2,6 +2,10 @@ from nltk import WordPunctTokenizer
 
 
 class Tokenizer:
+    """
+    Класс осуществляющий токенизацию.
+    """
+
     def __init__(self):
         self.tokenizer = WordPunctTokenizer()
 
