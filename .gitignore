@@ -2,7 +2,6 @@
 *.loa
 *.log
 *.out
-*.pdf
 *.pyc
 *.toc
 *.RData
